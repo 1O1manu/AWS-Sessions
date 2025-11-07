@@ -25,7 +25,6 @@ jobs:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         EC2_USER: ${{ secrets.EC2_USER }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
-        REPO_URL: ${{ secrets.REPO_URL }}
       run: |
         # Fix SSH key formatting and set permissions
         echo "$EC2_SSH_KEY" | tr -d '\r' | sed 's/\\n/\n/g' > key.pem
@@ -33,12 +32,8 @@ jobs:
 
         # Connect to EC2 and deploy
         ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << EOF
-          if [ ! -d "app" ]; then
-            git clone $REPO_URL app
-          else
-            cd app && git pull origin main
-          fi
-          cd app
+          # Assuming your app is already present in the EC2 home directory
           npm install
           npm start &
         EOF
+
