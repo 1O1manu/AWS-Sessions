@@ -71,3 +71,4 @@ npm run start
 
 ### Project is deployed on AWS 🎉
 nmdmsd
+nbnn
