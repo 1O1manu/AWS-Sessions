@@ -31,9 +31,10 @@ jobs:
         chmod 600 key.pem
 
         # Connect to EC2 and deploy
-        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << EOF
-          # Assuming your app is already present in the EC2 home directory
-          npm install
-          npm start &
+        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          cd ~/AWS-Sessions             # 👈 move into your app directory
+          npm install                   # install dependencies
+          npm run build || true         # run build if defined, ignore if not
+          npm start &                   # start the app in background
         EOF
 
